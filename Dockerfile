@@ -1,4 +1,5 @@
-FROM crazymax/alpine-s6:latest
+FROM alpine:latest
+COPY --from=crazymax/alpine-s6-dist:latest / /
 
 # global environment settings
 ENV PLATFORM_ARCH="amd64"
@@ -11,6 +12,12 @@ ENV S6_KEEP_ENV=1
 # user and group id
 ENV PUID=911
 ENV PGID=1000
+
+# install packages
+RUN \
+ apk update && \
+ apk add --no-cache \
+ ca-certificates
 
 # install build packages
 RUN \
